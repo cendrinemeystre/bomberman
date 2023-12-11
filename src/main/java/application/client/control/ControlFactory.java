@@ -32,4 +32,12 @@ public class ControlFactory {
     public PlayerJoinedControl createPlayerJoinedControl() {
         return new PlayerJoinedControl(serverProxy, game, view);
     }
+
+    public ErrorMessageControl createErrorMessageControl() {
+        return new ErrorMessageControl(serverProxy, game, view);
+    }
+
+    public StartGameControl createStartGameControl() {
+        return new StartGameControl(serverProxy, game, view);
+    }
 }

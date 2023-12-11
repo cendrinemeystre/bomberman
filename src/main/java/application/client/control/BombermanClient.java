@@ -4,7 +4,7 @@ import application.client.model.Game;
 import application.client.view.BombermanFrame;
 import application.client.view.BombermanPanel;
 import network.client.ServerProxy;
-import network.client.ServerProxyStub;
+import network.client.gruppe2.ServerProxyStub;
 
 
 public class BombermanClient {

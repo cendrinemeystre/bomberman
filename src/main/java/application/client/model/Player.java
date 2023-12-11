@@ -2,7 +2,8 @@ package application.client.model;
 
 public class Player {
     private String name;
-    private int x, y;
+    private int x;
+    private int y;
 
     public Player(String playerName) {
         name = playerName;
@@ -14,7 +15,7 @@ public class Player {
         y = initialY;
     }
 
-    public boolean isYourName(String playerName) {
+    public boolean isName(String playerName) {
         return name.equals(playerName);
     }
 

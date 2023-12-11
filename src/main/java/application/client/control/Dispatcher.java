@@ -7,21 +7,15 @@ import protocol.server2client.*;
 public class Dispatcher implements ClientApplicationInterface {
     @Override
     public void handleMessage(Message message) {
-        if (message instanceof ErrorMessage) {
-            
-        } else if (message instanceof GameOver) {
-            
-        } else if (message instanceof PlayerHit) {
-
-        } else if (message instanceof PlayerJoined) {
+        if (message instanceof PlayerJoined) {
             PlayerJoinedControl control = ControlFactory.instance().createPlayerJoinedControl();
             control.playerJoined((PlayerJoined)message);
-        } else if (message instanceof  PlayerMoved) {
-
+        } else if (message instanceof ErrorMessage) {
+            ErrorMessageControl control = ControlFactory.instance().createErrorMessageControl();
+            control.errorMessage((ErrorMessage)message);
         } else if (message instanceof StartGame) {
-
-        } else if (message instanceof Update) {
-
+            StartGameControl control = ControlFactory.instance().createStartGameControl();
+            control.startGame((StartGame) message);
         }
     }
 }
