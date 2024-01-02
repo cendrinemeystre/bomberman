@@ -1,33 +1,36 @@
 package application.client.view;
 
-import application.client.control.ControlFactory;
-import application.client.control.JoinGameControl;
+import application.client.model.Labyrinth;
+import application.client.view.panel.LabyrinthPanel;
+import application.client.view.panel.LoginPanel;
+import application.client.view.panel.MessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class BombermanPanel extends JPanel {
-    private JTextField playerNameTextField = new JTextField();
-    private JTextArea messageTextArea = new JTextArea();
+    private final LoginPanel loginPanel;
+    private final LabyrinthPanel labyrinthPanel;
+    private final MessagePanel messagePanel;
+
     public BombermanPanel() {
         setLayout(new BorderLayout());
-        playerNameTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JoinGameControl control = ControlFactory.instance().createJoinGameControl();
-                control.joinGame(playerNameTextField.getText());
-                playerNameTextField.setEnabled(false);
-            }
-        });
-        add(playerNameTextField, BorderLayout.NORTH);
-        messageTextArea.setRows(4);
-        messageTextArea.setEditable(false);
-        add(messageTextArea, BorderLayout.SOUTH);
+        setFocusable(true);
+        // Fill panel
+        loginPanel = new LoginPanel();
+        add(loginPanel.createPanel(), BorderLayout.NORTH);
+        labyrinthPanel = new LabyrinthPanel();
+        add(labyrinthPanel.createPanel(), BorderLayout.CENTER);
+        messagePanel = new MessagePanel();
+        add(messagePanel.createPanel(), BorderLayout.SOUTH);
+    }
+
+    public void updateLabyrinth(Labyrinth labyrinth) {
+        labyrinthPanel.updateGameState(labyrinth);
     }
 
     public void displayMessage(String message) {
-        messageTextArea.append(message + "\n");
+        messagePanel.displayMessage(message);
     }
+
 }
