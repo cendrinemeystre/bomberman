@@ -1,13 +1,14 @@
 package application.client.view.panel;
 
 import application.client.control.ControlFactory;
-import application.client.control.JoinGameControl;
+import application.client.control.client2server.JoinGameControl;
 
 import javax.swing.*;
 import java.awt.*;
 
 
 public class LoginPanel extends Panel<BorderLayout> {
+    private JTextField playerNameTextField;
 
     public LoginPanel() {
         super(new BorderLayout());
@@ -21,20 +22,17 @@ public class LoginPanel extends Panel<BorderLayout> {
     }
 
     private JTextField createPlayerNameTextField() {
-        JTextField playerNameTextField = new JTextField();
+        playerNameTextField = new JTextField();
         playerNameTextField.setPreferredSize(new Dimension(200, 50));
-        playerNameTextField.addActionListener(e -> {
-            JoinGameControl control = ControlFactory.instance().createJoinGameControl();
-            control.joinGame(playerNameTextField.getText());
-            playerNameTextField.setEnabled(false);
-        });
         return playerNameTextField;
     }
 
     private JButton createLoginButton() {
         JButton button = new JButton("Anmelden");
         button.addActionListener(e -> {
-
+            JoinGameControl control = ControlFactory.instance().createClient2ServerControl(JoinGameControl.class);
+            control.joinGame(playerNameTextField.getText());
+            playerNameTextField.setEnabled(false);
         });
         return button;
     }

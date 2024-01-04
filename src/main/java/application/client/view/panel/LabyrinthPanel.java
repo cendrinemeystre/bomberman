@@ -1,79 +1,114 @@
 package application.client.view.panel;
 
+import application.client.model.Bomb;
+import application.client.model.FieldType;
+import application.client.model.Game;
 import application.client.model.Labyrinth;
+import protocol.Direction;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class LabyrinthPanel extends Panel<BorderLayout> {
-    private Labyrinth labyrinth;
-    private Map<Character, ImageIcon> imageMap = new HashMap<>();
-    private static final int CELL_SIZE = 30;
-    private static final String filePath = "/bomberman/field/";
-    private ImageIcon unbreakableBlock;
-    private ImageIcon emptyImage;
-    private ImageIcon breakableBlock;
+public class LabyrinthPanel extends Panel<GridBagLayout> {
+    private Game game;
+    private final Map<Character, ImageIcon> imageMap = new HashMap<>();
 
     public LabyrinthPanel() {
-        super(new BorderLayout());
+        super(new GridBagLayout());
+        game = new Game();
         loadImages();
+
+//        char[][] initialGameState = {
+//                {'i', 'i', 'i', 'i', 'i'},
+//                {'i', '2', 'f', 'f', 'i'},
+//                {'i', 'f', 'i', '3', 'i'},
+//                {'1', 'b', 'f', 'f', 'i'},
+//                {'i', 'i', 'i', 'i', 'i'}};
+//        Labyrinth labyrinth = new Labyrinth();
+//        labyrinth.setLayout(initialGameState);
+//        game.setLabyrinth(labyrinth);
+
     }
 
     @Override
     public JPanel createPanel() {
         JPanel panel = getPanel();
         panel.setFocusable(true);
-
-        panel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                System.out.println("key: " + e.getKeyChar());
-                repaint();
-            }
-        });
-
         return panel;
     }
 
-    private void loadImages() {
-        unbreakableBlock = new ImageIcon(Objects.requireNonNull(getClass().getResource(filePath + "UNBREAKABLE_BLOCK.png")));
-        breakableBlock = new ImageIcon(Objects.requireNonNull(getClass().getResource(filePath + "BREAKABLE_BLOCK.png")));
-        emptyImage = new ImageIcon(Objects.requireNonNull(getClass().getResource(filePath + "FREE.png")));
-
-        // Add images to the map for easy access
-        imageMap.put('W', unbreakableBlock);
-        imageMap.put(' ', emptyImage);
-        imageMap.put('P', breakableBlock);
+    public void updateGameMap(char[][] map) {
+        game.getLabyrinth().setLayout(map);
+        printLabyrinth();
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        System.out.println("paint");
-        if (labyrinth != null) {
-            for (int row = 0; row < labyrinth.getHeight(); row++) {
-                for (int col = 0; col < labyrinth.getWidth(); col++) {
-                    int x = col * CELL_SIZE;
-                    int y = row * CELL_SIZE;
+    public void playerMoved(String playerName, Direction direction) {
+        game.playerMoved(playerName, direction);
+        printLabyrinth();
+    }
 
-                    char currentElement = labyrinth.getLayout()[row][col];
+    public void bombDropped(String id, int positionX, int positionY) {
+        game.getLabyrinth().addBomb(id, new Bomb(positionX, positionY));
+        printLabyrinth();
+    }
 
-                    // Check if the character has a corresponding image
+    public void bombExploded(String id) {
+        game.getLabyrinth().removeBomb(id);
+
+    }
+
+    public void playerHit(String playerName) {
+        game.playerHit(playerName);
+        printLabyrinth();
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+        game.setLabyrinth(new Labyrinth());
+    }
+
+    private void printLabyrinth() {
+        char[][] layout = game.getLabyrinth().getLayout();
+        GridBagConstraints gridBagConstraints = getGridBagConstraints();
+        if (layout != null) {
+            for (char[] chars : layout) {
+                JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+                for (char currentElement : chars) {
                     if (imageMap.containsKey(currentElement)) {
                         ImageIcon image = imageMap.get(currentElement);
-                        g.drawImage(image.getImage(), x, y, CELL_SIZE, CELL_SIZE, null);
+                        JLabel label = new JLabel(image);
+                        tempPanel.add(label);
                     }
                 }
+                addToPanel(tempPanel, gridBagConstraints);
             }
+        }
+        getPanel().repaint();
+    }
+
+    private GridBagConstraints getGridBagConstraints() {
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.fill = GridBagConstraints.VERTICAL;
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        return gridBagConstraints;
+    }
+
+    private void loadImages() {
+        for (FieldType fieldType : FieldType.values()) {
+            imageMap.put(fieldType.getKey(), createImageIcon(fieldType.name()));
         }
     }
 
-    public void updateGameState(Labyrinth labyrinth) {
-        this.labyrinth = labyrinth;
-        getPanel().repaint();
+    private ImageIcon createImageIcon(String imageName) {
+        return new ImageIcon(getPicture(imageName));
+    }
+
+    private URL getPicture(String image) {
+        return Objects.requireNonNull(getClass().getResource("/bomberman/field/" + image + ".png"));
     }
 }
