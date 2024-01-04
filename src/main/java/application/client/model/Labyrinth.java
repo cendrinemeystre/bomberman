@@ -1,26 +1,15 @@
 package application.client.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Labyrinth {
-    private final int width;
-    private final int height;
     private char[][] layout;
-    private List<Labyrinth> labyrinthList = new ArrayList<>();
 
-    public Labyrinth(int width, int height, char[][] layout) {
-        this.width = width;
-        this.height = height;
-        this.layout = layout;
-    }
+    private final Map<String, Bomb> bombList;
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+    public Labyrinth() {
+        bombList = new HashMap<>();
     }
 
     public char[][] getLayout() {
@@ -29,5 +18,33 @@ public class Labyrinth {
 
     public void setLayout(char[][] layout) {
         this.layout = layout;
+    }
+
+    public void movePlayerTo(int fromX, int fromY, int toX, int toY) {
+        char from = layout[fromX][fromY];
+        layout[fromX][fromY] = 'f';
+        layout[toX][toY] = from;
+    }
+
+    public void removePlayer(int positionX, int positionY) {
+        layout[positionX][positionY] = 'f';
+    }
+
+    public Bomb getBomb(int positionX, int positionY) {
+        return this.bombList.values().stream()
+                .filter(bomb -> bomb.positionX() == positionX && bomb.positionY() == positionY)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void addBomb(String id, Bomb bomb) {
+        this.bombList.put(id, bomb);
+        layout[bomb.positionX()][bomb.positionY()] = 'b';
+    }
+
+    public void removeBomb(String id) {
+        Bomb bomb = this.bombList.get(id);
+        layout[bomb.positionX()][bomb.positionY()] = 'f';
+        this.bombList.remove(id);
     }
 }
