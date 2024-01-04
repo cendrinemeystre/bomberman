@@ -14,4 +14,5 @@ public abstract class Control {
         this.game = game;
         this.view = view;
     }
+
 }

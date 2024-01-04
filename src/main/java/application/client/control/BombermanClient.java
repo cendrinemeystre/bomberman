@@ -8,10 +8,6 @@ import network.client.gruppe2.ServerProxyStub;
 
 
 public class BombermanClient {
-    public static void main(String[] args) {
-        new BombermanClient();
-    }
-
     private BombermanClient() {
         Game game = new Game();
         Dispatcher dispatcher = new Dispatcher();
@@ -19,5 +15,9 @@ public class BombermanClient {
         BombermanPanel panel = new BombermanPanel();
         new BombermanFrame(panel);
         ControlFactory.instantiate(serverProxy, game, panel);
+    }
+
+    public static void main(String[] args) {
+        new BombermanClient();
     }
 }
