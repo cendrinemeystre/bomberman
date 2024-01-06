@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class LoginPanel extends Panel<BorderLayout> {
     private JTextField playerNameTextField;
+    private JButton loginButton;
 
     public LoginPanel() {
         super(new BorderLayout());
@@ -28,13 +29,19 @@ public class LoginPanel extends Panel<BorderLayout> {
     }
 
     private JButton createLoginButton() {
-        JButton button = new JButton("Anmelden");
-        button.addActionListener(e -> {
+        loginButton = new JButton("Anmelden");
+        loginButton.addActionListener(e -> {
             JoinGameControl control = ControlFactory.instance().createClient2ServerControl(JoinGameControl.class);
             control.joinGame(playerNameTextField.getText());
             playerNameTextField.setEnabled(false);
+            loginButton.setEnabled(false);
         });
-        return button;
+        return loginButton;
+    }
+
+    public void enableLogin() {
+        playerNameTextField.setEnabled(true);
+        loginButton.setEnabled(true);
     }
 
 }
