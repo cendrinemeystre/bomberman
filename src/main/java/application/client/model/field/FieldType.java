@@ -1,14 +1,14 @@
-package application.client.model;
+package application.client.model.field;
 
 public enum FieldType {
     INDESTRUCTIBLE_BLOCK('i'),
     DESTRUCTIBLE_BLOCK('d'),
     BOMB('b'),
     FREE('f'),
-    PLAYER1('1'),
-    PLAYER2('2'),
-    PLAYER3('3'),
-    PLAYER4('4');
+    MY_PLAYER('3'),
+    OPPONENT_1('0'),
+    OPPONENT_2('1'),
+    OPPONENT_3('2');
 
     private final char key;
 

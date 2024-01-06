@@ -1,5 +1,7 @@
 package application.client.model;
 
+import application.client.model.field.FieldType;
+import application.client.model.field.Player;
 import protocol.Direction;
 import protocol.server2client.PlayerJoined;
 
@@ -7,15 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    private final List<Player> opponents = new ArrayList<>();
     private Labyrinth labyrinth;
     private Player myPlayer;
-    private final List<Player> opponents = new ArrayList<>();
 
     public Game() {
+        // TODO remove
+        myPlayer = new Player("oen");
+        myPlayer.setPosition(1, 2);
+        opponents.add(new Player("playerName", 3, 0, FieldType.OPPONENT_1));
+        opponents.add(new Player("playerName2", 1, 1, FieldType.OPPONENT_2));
+        opponents.add(new Player("playerNam3", 2, 3, FieldType.OPPONENT_3));
+
     }
 
     public void createMyPlayer(String playerName) {
         myPlayer = new Player(playerName);
+    }
+
+    public void initializeLabyrinth(int height, int width) {
+        labyrinth = new Labyrinth(height, width);
+    }
+
+    public void setLabyrinthLayout(char[][] layout) {
+        labyrinth.setLayout(layout, myPlayer, opponents);
     }
 
     public void playerJoined(PlayerJoined message) {
@@ -25,7 +42,8 @@ public class Game {
         if (myPlayer.isName(playerName)) {
             myPlayer.setPosition(initialX, initialY);
         } else {
-            opponents.add(new Player(playerName, initialX, initialY));
+            FieldType fieldType = getFieldType(opponents.size());
+            opponents.add(new Player(playerName, initialX, initialY, fieldType));
         }
     }
 
@@ -69,6 +87,16 @@ public class Game {
             }
         }
         return myPlayer;
+    }
+
+    private FieldType getFieldType(int size) {
+        FieldType fieldType = null;
+        for (FieldType field : FieldType.values()) {
+            if (field.getKey() == size) {
+                fieldType = field;
+            }
+        }
+        return fieldType;
     }
 
 }
