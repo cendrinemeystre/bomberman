@@ -15,6 +15,7 @@ public class BombermanClient {
         BombermanPanel panel = new BombermanPanel();
         new BombermanFrame(panel);
         ControlFactory.instantiate(serverProxy, game, panel);
+        panel.startGame(game);
     }
 
     public static void main(String[] args) {

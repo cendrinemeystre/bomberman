@@ -12,6 +12,7 @@ public class BombExplodedControl extends Server2ClientControl<BombExploded> {
 
     @Override
     public void handleMessage(BombExploded message) {
-        view.bombExploded(message.getId());
+        game.getLabyrinth().removeBomb(message.getId());
+        view.update();
     }
 }

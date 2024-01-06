@@ -12,6 +12,7 @@ public class PlayerHitControl extends Server2ClientControl<PlayerHit> {
 
     @Override
     public void handleMessage(PlayerHit message) {
-        view.playerHit(message.getPlayerName());
+        game.playerHit(message.getPlayerName());
+        view.update();
     }
 }

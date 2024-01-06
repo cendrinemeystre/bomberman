@@ -11,7 +11,8 @@ public class UpdateControl extends Server2ClientControl<Update> {
     }
 
     @Override
-    public void handleMessage(Update update) {
-        view.update(update.getMap());
+    public void handleMessage(Update message) {
+        game.setLabyrinthLayout(message.getMap());
+        view.update();
     }
 }

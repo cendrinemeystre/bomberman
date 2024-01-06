@@ -13,6 +13,9 @@ public class StartGameControl extends Server2ClientControl<StartGame> {
     @Override
     public void handleMessage(StartGame message) {
         view.displayMessage("Spiel gestartet");
-        view.startGame(message.getMap(), game);
+        char[][] map = message.getMap();
+        game.initializeLabyrinth(map.length, map[0].length);
+        game.setLabyrinthLayout(map);
+        view.startGame(game);
     }
 }

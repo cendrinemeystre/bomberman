@@ -12,6 +12,7 @@ public class BombDroppedControl extends Server2ClientControl<BombDropped> {
 
     @Override
     public void handleMessage(BombDropped message) {
-        view.bombDropped(message.getId(), message.getPositionX(), message.getPositionY());
+        game.getLabyrinth().addBomb(message.getId(), message.getPositionX(), message.getPositionY());
+        view.update();
     }
 }

@@ -12,6 +12,7 @@ public class PlayerMovedControl extends Server2ClientControl<PlayerMoved> {
 
     @Override
     public void handleMessage(PlayerMoved message) {
-        view.playerMoved(message.getPlayerName(), message.getDirection());
+        game.playerMoved(message.getPlayerName(), message.getDirection());
+        view.update();
     }
 }

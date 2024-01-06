@@ -1,10 +1,8 @@
 package application.client.view.panel;
 
-import application.client.model.Bomb;
-import application.client.model.FieldType;
 import application.client.model.Game;
-import application.client.model.Labyrinth;
-import protocol.Direction;
+import application.client.model.field.Field;
+import application.client.model.field.FieldType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,24 +12,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public class LabyrinthPanel extends Panel<GridBagLayout> {
-    private Game game;
     private final Map<Character, ImageIcon> imageMap = new HashMap<>();
+    private Game game;
 
     public LabyrinthPanel() {
         super(new GridBagLayout());
+        // TODO remove the next line only for testing
         game = new Game();
         loadImages();
-
-//        char[][] initialGameState = {
-//                {'i', 'i', 'i', 'i', 'i'},
-//                {'i', '2', 'f', 'f', 'i'},
-//                {'i', 'f', 'i', '3', 'i'},
-//                {'1', 'b', 'f', 'f', 'i'},
-//                {'i', 'i', 'i', 'i', 'i'}};
-//        Labyrinth labyrinth = new Labyrinth();
-//        labyrinth.setLayout(initialGameState);
-//        game.setLabyrinth(labyrinth);
-
     }
 
     @Override
@@ -41,45 +29,34 @@ public class LabyrinthPanel extends Panel<GridBagLayout> {
         return panel;
     }
 
-    public void updateGameMap(char[][] map) {
-        game.getLabyrinth().setLayout(map);
-        printLabyrinth();
-    }
-
-    public void playerMoved(String playerName, Direction direction) {
-        game.playerMoved(playerName, direction);
-        printLabyrinth();
-    }
-
-    public void bombDropped(String id, int positionX, int positionY) {
-        game.getLabyrinth().addBomb(id, new Bomb(positionX, positionY));
-        printLabyrinth();
-    }
-
-    public void bombExploded(String id) {
-        game.getLabyrinth().removeBomb(id);
-
-    }
-
-    public void playerHit(String playerName) {
-        game.playerHit(playerName);
+    public void updateGameMap() {
         printLabyrinth();
     }
 
     public void setGame(Game game) {
         this.game = game;
-        game.setLabyrinth(new Labyrinth());
+
+        // TODO: remove everything below this only for testing
+        this.game.initializeLabyrinth(5, 5);
+        char[][] initialGameState = {
+                {'i', 'i', 'i', 'i', 'i'},
+                {'i', '2', '0', 'f', 'i'},
+                {'i', 'f', 'i', '3', 'i'},
+                {'1', 'b', 'f', 'f', 'i'},
+                {'i', 'i', 'i', 'i', 'i'}};
+        this.game.setLabyrinthLayout(initialGameState);
     }
 
     private void printLabyrinth() {
-        char[][] layout = game.getLabyrinth().getLayout();
+        Field[][] layout = game.getLabyrinth().getLayout();
         GridBagConstraints gridBagConstraints = getGridBagConstraints();
         if (layout != null) {
-            for (char[] chars : layout) {
+            for (Field[] fields : layout) {
                 JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-                for (char currentElement : chars) {
-                    if (imageMap.containsKey(currentElement)) {
-                        ImageIcon image = imageMap.get(currentElement);
+                for (Field currentElement : fields) {
+                    char key = currentElement.getType().getKey();
+                    if (imageMap.containsKey(key)) {
+                        ImageIcon image = imageMap.get(key);
                         JLabel label = new JLabel(image);
                         tempPanel.add(label);
                     }
