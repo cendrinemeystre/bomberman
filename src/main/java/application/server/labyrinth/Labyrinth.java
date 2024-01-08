@@ -1,11 +1,11 @@
 package application.server.labyrinth;
 
+import application.server.labyrinth.tile.Tile;
+import application.server.model.Bomb;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import application.server.labyrinth.tile.Tile;
-import application.server.model.Bomb;
 
 import static application.server.labyrinth.tile.TileOccupation.BOMB;
 import static application.server.labyrinth.tile.TileType.FREE;

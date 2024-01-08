@@ -1,5 +1,8 @@
 package application.server.model;
 
+import application.server.labyrinth.Labyrinth;
+import protocol.Direction;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,9 +10,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import application.server.labyrinth.Labyrinth;
-import protocol.Direction;
 
 public class Game {
     private static final int NB_OF_PLAYERS = 4;
@@ -42,7 +42,7 @@ public class Game {
     }
 
     private int[] getRandomPosition() {
-        return new int[] { random.nextInt(1, labyrinth.getWidth() + 1), random.nextInt(1, labyrinth.getHeight() + 1) };
+        return new int[]{random.nextInt(1, labyrinth.getWidth() + 1), random.nextInt(1, labyrinth.getHeight() + 1)};
     }
 
     public boolean isMovePossible(String playerName, Direction direction) {

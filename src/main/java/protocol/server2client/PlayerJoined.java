@@ -9,29 +9,29 @@ import network.Message;
  * Spieler gesendet.
  * Die Meldung enthalt den Spielernamen des neu angemeldeten Spielers und seine
  * Startposition auf dem Spielfeld.
- * 
- * @author Andres Scheidegger
  *
+ * @author Andres Scheidegger
  */
 public class PlayerJoined implements Message {
-  private String playerName;
-  private int initialX;
-  private int initialY;
+    private String playerName;
+    private int initialX;
+    private int initialY;
 
-  public PlayerJoined(String playerName, int initialX, int initialY) {
-    this.playerName = playerName;
-    this.initialX = initialX;
-    this.initialY = initialY;
-  }
+    public PlayerJoined(String playerName, int initialX, int initialY) {
+        this.playerName = playerName;
+        this.initialX = initialX;
+        this.initialY = initialY;
+    }
 
-  public String getPlayerName() {
-    return playerName;
-  }
-  public int getInitialPositionX() {
-    return initialX;
-  }
+    public String getPlayerName() {
+        return playerName;
+    }
 
-  public int getInitialPositionY() {
-    return initialY;
-  }
+    public int getInitialPositionX() {
+        return initialX;
+    }
+
+    public int getInitialPositionY() {
+        return initialY;
+    }
 }

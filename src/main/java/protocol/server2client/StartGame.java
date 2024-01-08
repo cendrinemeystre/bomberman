@@ -5,18 +5,17 @@ import network.Message;
 /**
  * Diese Meldung wird vom Server an alle Clients gesendet, sobald genugend Spieler angemeldet
  * sind und das Spiel los geht.
- * 
- * @author Andres Scheidegger
  *
+ * @author Andres Scheidegger
  */
 public class StartGame implements Message {
-  private char[][] map;
+    private char[][] map;
 
-  public StartGame(char[][] map) {
-    this.map = map;
-  }
+    public StartGame(char[][] map) {
+        this.map = map;
+    }
 
-  public char[][] getMap() {
-    return map;
-  }
+    public char[][] getMap() {
+        return map;
+    }
 }
