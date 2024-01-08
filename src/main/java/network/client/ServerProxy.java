@@ -3,7 +3,7 @@ package network.client;
 import network.Message;
 
 /**
- * Diese Klasse repr‰sentiert den Server auf der Client-Seite und zwar auf Ebene Netzwerkschicht.
+ * Diese Klasse repr√§sentiert den Server auf der Client-Seite und zwar auf Ebene Netzwerkschicht.
  * Sie definiert die Schnittstelle, welche die Netzwerkschicht der Bomberman-Client-Komponente anbietet.
  * Sie ist abstrakt und muss innerhalb der Netzwerkschicht durch Ableitung implementiert werden.
  * Die Bomberman-Client-Komponente muss beim Start ein Objekt von dieser Implementationsklasse
@@ -15,13 +15,13 @@ import network.Message;
 public abstract class ServerProxy {
   /**
    * Referenz auf dasjenige Objekt innerhalb der Bomberman-Client-Komponente, welches vom Server
-   * empfangene Nachrichten verarbeitet (Empf‰ngerobjekt).
+   * empfangene Nachrichten verarbeitet (Empf√§ngerobjekt).
    */
   protected final ClientApplicationInterface clientApplication;
   
   /**
-   * Konstruktor. Initialisiert das neue ServerProxy-Objekt mit der Referenz auf das Empf‰ngerobjekt.
-   * @param clientApplication Das Empf‰ngerobjekt des Bomberman-Clients f¸r Nachrichten.
+   * Konstruktor. Initialisiert das neue ServerProxy-Objekt mit der Referenz auf das Empf√§ngerobjekt.
+   * @param clientApplication Das Empf√§ngerobjekt des Bomberman-Clients f√ºr Nachrichten.
    */
   public ServerProxy(ClientApplicationInterface clientApplication){
     this.clientApplication = clientApplication;

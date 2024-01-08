@@ -34,7 +34,8 @@ public class DropBombController extends Controller {
             game.updateLabyrinth(game.getBombById(id));
             server.broadcast(new Update(game.getLabyrinth().getCharMap()));
             if (!game.checkIfRunning()) {
-                server.broadcast(new GameOver(game.getScoreboard()));
+                // TODO give the real winnerName as input
+                server.broadcast(new GameOver("winner", game.getScoreboard()));
             }
         }
     }

@@ -14,13 +14,13 @@ import network.Message;
 public abstract class Server {
   /**
    * Referenz auf dasjenige Objekt innerhalb der Bomberman-Server-Komponente, welches von den Clients
-   * empfangene Nachrichten verarbeitet (Empf‰ngerobjekt).
+   * empfangene Nachrichten verarbeitet (Empf√§ngerobjekt).
    */
   protected final ServerApplicationInterface serverApplication;
   
   /**
-   * Konstruktor. Initialisiert das neue Server-Objekt mit der Referenz auf das Empf‰ngerobjekt.
-   * @param serverApplication Das Empf‰ngerobjekt des Bomberman-Servers f¸r Nachrichten.
+   * Konstruktor. Initialisiert das neue Server-Objekt mit der Referenz auf das Empf√§ngerobjekt.
+   * @param serverApplication Das Empf√§ngerobjekt des Bomberman-Servers f√ºr Nachrichten.
    */
   public Server(ServerApplicationInterface serverApplication) {
     this.serverApplication = serverApplication;
