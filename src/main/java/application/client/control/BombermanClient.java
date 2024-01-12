@@ -4,7 +4,7 @@ import application.client.model.Game;
 import application.client.view.BombermanFrame;
 import application.client.view.BombermanPanel;
 import network.client.ServerProxy;
-import network.client.gruppe2.ServerProxyStub;
+import network.client.ServerProxyStub;
 
 
 public class BombermanClient {
@@ -15,8 +15,6 @@ public class BombermanClient {
         BombermanPanel panel = new BombermanPanel();
         new BombermanFrame(panel);
         ControlFactory.instantiate(serverProxy, game, panel);
-        // TODO remove this
-        panel.startGame(game);
     }
 
     public static void main(String[] args) {

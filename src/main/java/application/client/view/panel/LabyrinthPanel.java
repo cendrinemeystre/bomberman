@@ -35,20 +35,11 @@ public class LabyrinthPanel extends Panel<GridBagLayout> {
 
     public void setGame(Game game) {
         this.game = game;
-
-        // TODO: remove everything below this only for testing
-        this.game.initializeLabyrinth(5, 5);
-        char[][] initialGameState = {
-                {'i', 'i', 'i', 'i', 'i'},
-                {'i', '2', '0', 'f', 'i'},
-                {'i', 'f', 'i', '3', 'i'},
-                {'1', 'b', 'f', 'f', 'i'},
-                {'i', 'i', 'i', 'i', 'i'}};
-        this.game.setLabyrinthLayout(initialGameState);
     }
 
     private void printLabyrinth() {
-        Field[][] layout = game.getLabyrinth().getLayout();
+        getPanel().removeAll();
+        Field[][] layout = game.getLabyrinth().getLayoutForRendering();
         GridBagConstraints gridBagConstraints = getGridBagConstraints();
         if (layout != null) {
             for (Field[] fields : layout) {
@@ -64,6 +55,7 @@ public class LabyrinthPanel extends Panel<GridBagLayout> {
                 addToPanel(tempPanel, gridBagConstraints);
             }
         }
+        getPanel().validate();
         getPanel().repaint();
     }
 

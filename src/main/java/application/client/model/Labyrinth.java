@@ -12,16 +12,27 @@ import java.util.List;
 import java.util.Map;
 
 public class Labyrinth {
-    private final Map<String, Bomb> bombList;
-    private Field[][] layout;
+    private final Map<String, Bomb> bombMap;
+    private final Field[][] layout;
+    private Player myPlayer;
+    private List<Player> opponents;
+
 
     public Labyrinth(int height, int width) {
-        bombList = new HashMap<>();
+        bombMap = new HashMap<>();
         layout = new Field[height][width];
     }
 
-    public Field[][] getLayout() {
-        return layout;
+    public Field[][] getLayoutForRendering() {
+        Field[][] layoutCopy = new Field[layout.length][layout[0].length];
+        for (int x = 0; x < layout.length; x++) {
+            System.arraycopy(layout[x], 0, layoutCopy[x], 0, layout[x].length);
+        }
+        bombMap.values()
+                .forEach(bomb -> layoutCopy[bomb.getPositionX()][bomb.getPositionY()] = bomb);
+        opponents.forEach(opponent -> layoutCopy[opponent.getX()][opponent.getY()] = opponent);
+        layoutCopy[myPlayer.getX()][myPlayer.getY()] = myPlayer;
+        return layoutCopy;
     }
 
     public void setLayout(char[][] layoutUpdate, Player myPlayer, List<Player> opponents) {
@@ -30,52 +41,24 @@ public class Labyrinth {
                 switch (layoutUpdate[i][j]) {
                     case 'i' -> layout[i][j] = new IndestructibleBlock();
                     case 'd' -> layout[i][j] = new DestructibleBlock();
-                    case 'b' -> layout[i][j] = new Bomb(i, j);
-                    case 'f' -> layout[i][j] = new Free();
-                }
-                if (isPosition(myPlayer, i, j)) {
-                    layout[i][j] = new Player(myPlayer.getName());
-                } else {
-                    for (Player opponent : opponents) {
-                        if (isPosition(opponent, i, j)) {
-                            layout[i][j] = new Player(opponent.getName(), opponent.getX(), opponent.getY(), opponent.getType());
-                        }
-                    }
+                    default -> layout[i][j] = new Free();
                 }
             }
         }
-    }
-
-    private boolean isPosition(Player player, int i, int j) {
-        return i == player.getX() && j == player.getY();
-    }
-
-    public void movePlayerTo(int fromX, int fromY, int toX, int toY) {
-        Field from = layout[fromX][fromY];
-        layout[fromX][fromY] = new Free();
-        layout[toX][toY] = from;
+        this.myPlayer = myPlayer;
+        this.opponents = opponents;
     }
 
     public void removePlayer(int positionX, int positionY) {
         layout[positionX][positionY] = new Free();
     }
 
-    public Bomb getBomb(int positionX, int positionY) {
-        return this.bombList.values().stream()
-                .filter(bomb -> bomb.getPositionX() == positionX && bomb.getPositionY() == positionY)
-                .findFirst()
-                .orElse(null);
-    }
-
     public void addBomb(String id, int x, int y) {
         Bomb bomb = new Bomb(x, y);
-        this.bombList.put(id, bomb);
-        layout[x][y] = bomb;
+        this.bombMap.put(id, bomb);
     }
 
     public void removeBomb(String id) {
-        Bomb bomb = this.bombList.get(id);
-        layout[bomb.getPositionX()][bomb.getPositionY()] = new Free();
-        this.bombList.remove(id);
+        this.bombMap.remove(id);
     }
 }

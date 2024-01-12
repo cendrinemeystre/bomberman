@@ -31,13 +31,15 @@ public class BombermanPanel extends JPanel {
         add(labyrinthPanel.createPanel(), BorderLayout.CENTER);
         messagePanel = new MessagePanel();
         messagePanel.setEnabled(false);
-        messagePanel.setFocusable(false);
+//        messagePanel.setFocusable(false);
         add(messagePanel.createPanel(), BorderLayout.SOUTH);
     }
 
     public void startGame(Game game) {
         labyrinthPanel.setGame(game);
         labyrinthPanel.updateGameMap();
+
+        requestFocusInWindow();
 
         // TODO finish implementing this -> Problem with KeyAdapter -> focus: only works before login
         addKeyListener(new KeyAdapter() {
@@ -47,11 +49,11 @@ public class BombermanPanel extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 Player player = game.getMyPlayer();
-                switch (e.getKeyChar()) {
-                    case 'W' -> movePlayerControl.movePlayer(player.getName(), Direction.UP);
-                    case 'A' -> movePlayerControl.movePlayer(player.getName(), Direction.LEFT);
-                    case 'S' -> movePlayerControl.movePlayer(player.getName(), Direction.DOWN);
-                    case 'D' -> movePlayerControl.movePlayer(player.getName(), Direction.RIGHT);
+                switch (Character.toLowerCase(e.getKeyChar())) {
+                    case 'w' -> movePlayerControl.movePlayer(player.getName(), Direction.UP);
+                    case 'a' -> movePlayerControl.movePlayer(player.getName(), Direction.LEFT);
+                    case 's' -> movePlayerControl.movePlayer(player.getName(), Direction.DOWN);
+                    case 'd' -> movePlayerControl.movePlayer(player.getName(), Direction.RIGHT);
                     case ' ' -> dropBombControl.dropBomb(player.getName(), player.getX(), player.getY());
                 }
                 System.out.println("key: " + e.getKeyChar());
@@ -66,7 +68,7 @@ public class BombermanPanel extends JPanel {
             message.append(score).append("\n");
         }
         displayMessage(message.toString());
-        loginPanel.enableLogin();
+        loginPanel.enableLogin(true);
     }
 
     public void update() {

@@ -14,13 +14,6 @@ public class Game {
     private Player myPlayer;
 
     public Game() {
-        // TODO remove
-        myPlayer = new Player("oen");
-        myPlayer.setPosition(1, 2);
-        opponents.add(new Player("playerName", 3, 0, FieldType.OPPONENT_1));
-        opponents.add(new Player("playerName2", 1, 1, FieldType.OPPONENT_2));
-        opponents.add(new Player("playerNam3", 2, 3, FieldType.OPPONENT_3));
-
     }
 
     public void createMyPlayer(String playerName) {
@@ -39,6 +32,8 @@ public class Game {
         String playerName = message.getPlayerName();
         int initialX = message.getInitialPositionX();
         int initialY = message.getInitialPositionY();
+        // DO NOT REMOVE!!!! Somehow this fixes a race condition??????
+        System.out.println("Player joined: " + playerName + " x="+initialX+" y="+initialY);
         if (myPlayer.isName(playerName)) {
             myPlayer.setPosition(initialX, initialY);
         } else {
@@ -57,7 +52,6 @@ public class Game {
             case LEFT -> nextY--;
             case RIGHT -> nextY++;
         }
-        labyrinth.movePlayerTo(player.getX(), player.getY(), nextX, nextY);
         player.setPosition(nextX, nextY);
     }
 
@@ -90,13 +84,12 @@ public class Game {
     }
 
     private FieldType getFieldType(int size) {
-        FieldType fieldType = null;
-        for (FieldType field : FieldType.values()) {
-            if (field.getKey() == size) {
-                fieldType = field;
-            }
-        }
-        return fieldType;
+        return switch (size) {
+            case 0 -> FieldType.OPPONENT_1;
+            case 1 -> FieldType.OPPONENT_2;
+            case 2 -> FieldType.OPPONENT_3;
+            default -> throw new IllegalStateException("Invalid number of opponents: " + size);
+        };
     }
 
 }

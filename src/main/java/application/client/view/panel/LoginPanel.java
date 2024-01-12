@@ -33,15 +33,14 @@ public class LoginPanel extends Panel<BorderLayout> {
         loginButton.addActionListener(e -> {
             JoinGameControl control = ControlFactory.instance().createClient2ServerControl(JoinGameControl.class);
             control.joinGame(playerNameTextField.getText());
-            playerNameTextField.setEnabled(false);
-            loginButton.setEnabled(false);
+            enableLogin(false);
         });
         return loginButton;
     }
 
-    public void enableLogin() {
-        playerNameTextField.setEnabled(true);
-        loginButton.setEnabled(true);
+    public void enableLogin(boolean enable) {
+        playerNameTextField.setEnabled(enable);
+        loginButton.setEnabled(enable);
     }
 
 }
