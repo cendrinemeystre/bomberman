@@ -1,5 +1,6 @@
 package application.client.model;
 
+import application.client.model.field.Field;
 import application.client.model.field.FieldType;
 import application.client.model.field.Player;
 import protocol.Direction;
@@ -7,21 +8,19 @@ import protocol.server2client.PlayerJoined;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Game {
     private final List<Player> opponents = new ArrayList<>();
     private Labyrinth labyrinth;
     private Player myPlayer;
 
-    public Game() {
-    }
-
     public void createMyPlayer(String playerName) {
         myPlayer = new Player(playerName);
     }
 
-    public void initializeLabyrinth(int height, int width) {
-        labyrinth = new Labyrinth(height, width);
+    public void initializeLabyrinth(char[][] map) {
+        labyrinth = new Labyrinth(map);
     }
 
     public void setLabyrinthLayout(char[][] layout) {
@@ -33,11 +32,11 @@ public class Game {
         int initialX = message.getInitialPositionX();
         int initialY = message.getInitialPositionY();
         // DO NOT REMOVE!!!! Somehow this fixes a race condition??????
-        System.out.println("Player joined: " + playerName + " x="+initialX+" y="+initialY);
+        System.out.println("Player joined: " + playerName + " x=" + initialX + " y=" + initialY);
         if (myPlayer.isName(playerName)) {
             myPlayer.setPosition(initialX, initialY);
         } else {
-            FieldType fieldType = getFieldType(opponents.size());
+            FieldType fieldType = getOpponentFieldType(opponents.size());
             opponents.add(new Player(playerName, initialX, initialY, fieldType));
         }
     }
@@ -55,35 +54,34 @@ public class Game {
         player.setPosition(nextX, nextY);
     }
 
+    public void bombDropped(String id, int x, int y){
+        labyrinth.addBomb(id, x, y);
+    }
+
+    public void removeBomb(String id){
+        labyrinth.removeBomb(id);
+    }
+
     public void playerHit(String playerName) {
         Player player = getPlayer(playerName);
         labyrinth.removePlayer(player.getX(), player.getY());
     }
 
-    public Labyrinth getLabyrinth() {
-        return labyrinth;
+    public void gameOver(){
+        myPlayer = null;
+        opponents.clear();
+        labyrinth = null;
     }
 
-    public void setLabyrinth(Labyrinth labyrinth) {
-        this.labyrinth = labyrinth;
+    public Field[][] getLabyrinthLayoutForRendering() {
+        return labyrinth.getLayoutForRendering();
     }
 
     public Player getMyPlayer() {
         return myPlayer;
     }
 
-    private Player getPlayer(String playerName) {
-        if (!myPlayer.isName(playerName)) {
-            for (Player player : opponents) {
-                if (player.isName(playerName)) {
-                    return player;
-                }
-            }
-        }
-        return myPlayer;
-    }
-
-    private FieldType getFieldType(int size) {
+    private FieldType getOpponentFieldType(int size) {
         return switch (size) {
             case 0 -> FieldType.OPPONENT_1;
             case 1 -> FieldType.OPPONENT_2;
@@ -92,4 +90,13 @@ public class Game {
         };
     }
 
+    private Player getPlayer(String playerName) {
+        if (myPlayer.isName(playerName)) {
+            return myPlayer;
+        }
+        return opponents.stream()
+                .filter(opponent -> opponent.isName(playerName))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Player with name " + playerName + " was not found"));
+    }
 }

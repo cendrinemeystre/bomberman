@@ -9,7 +9,6 @@ import protocol.server2client.PlayerJoined;
 import protocol.server2client.PlayerMoved;
 import protocol.server2client.StartGame;
 
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -69,13 +68,12 @@ public class ServerProxyStub extends ServerProxy {
             deliverResponseMessageToClient(startGame);
         }
 
-        if(message instanceof MovePlayer movePlayer){
-            System.out.println(movePlayer.getPlayerName() + " moved to: " + movePlayer.getDirection().name());
+        if (message instanceof MovePlayer movePlayer) {
             PlayerMoved playerMoved = new PlayerMoved(movePlayer.getPlayerName(), movePlayer.getDirection());
             deliverResponseMessageToClient(playerMoved);
         }
 
-        if(message instanceof DropBomb dropBomb){
+        if (message instanceof DropBomb dropBomb) {
             BombDropped bombDropped = new BombDropped(UUID.randomUUID().toString(), dropBomb.getPositionX(), dropBomb.getPositionY());
             deliverResponseMessageToClient(bombDropped);
         }

@@ -4,19 +4,21 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MessagePanel extends Panel<BorderLayout> {
-    private JTextArea messageTextArea = new JTextArea();
+    private final JTextArea messageTextArea;
 
     public MessagePanel() {
         super(new BorderLayout());
+        messageTextArea = new JTextArea();
     }
 
     @Override
     public JPanel createPanel() {
-        messageTextArea = new JTextArea();
         messageTextArea.setRows(20);
         messageTextArea.setEditable(false);
         addToPanel(messageTextArea, null);
-        return getPanel();
+        JPanel panel = getPanel();
+        panel.setEnabled(false);
+        return panel;
     }
 
     public void displayMessage(String message) {

@@ -2,24 +2,18 @@ package application.client.view.panel;
 
 import application.client.model.Game;
 import application.client.model.field.Field;
-import application.client.model.field.FieldType;
+import application.client.view.helper.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class LabyrinthPanel extends Panel<GridBagLayout> {
-    private final Map<Character, ImageIcon> imageMap = new HashMap<>();
+    private final ImageLoader imageLoader;
     private Game game;
 
     public LabyrinthPanel() {
         super(new GridBagLayout());
-        // TODO remove the next line only for testing
-        game = new Game();
-        loadImages();
+        imageLoader = new ImageLoader();
     }
 
     @Override
@@ -38,25 +32,26 @@ public class LabyrinthPanel extends Panel<GridBagLayout> {
     }
 
     private void printLabyrinth() {
-        getPanel().removeAll();
-        Field[][] layout = game.getLabyrinth().getLayoutForRendering();
-        GridBagConstraints gridBagConstraints = getGridBagConstraints();
-        if (layout != null) {
-            for (Field[] fields : layout) {
-                JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-                for (Field currentElement : fields) {
-                    char key = currentElement.getType().getKey();
-                    if (imageMap.containsKey(key)) {
-                        ImageIcon image = imageMap.get(key);
-                        JLabel label = new JLabel(image);
-                        tempPanel.add(label);
-                    }
-                }
-                addToPanel(tempPanel, gridBagConstraints);
-            }
+        JPanel panel = getPanel();
+        panel.removeAll();
+        for (Field[] fields : game.getLabyrinthLayoutForRendering()) {
+            createLineLayout(fields);
         }
-        getPanel().validate();
-        getPanel().repaint();
+        panel.validate();
+        panel.repaint();
+    }
+
+    private void createLineLayout(Field[] fields) {
+        JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        for (Field currentElement : fields) {
+            addLabelForKeyToPanel(currentElement.getType().getKey(), tempPanel);
+        }
+        addToPanel(tempPanel, getGridBagConstraints());
+    }
+
+    private void addLabelForKeyToPanel(char key, JPanel tempPanel) {
+        ImageIcon image = imageLoader.getImageByKey(key);
+        tempPanel.add(new JLabel(image));
     }
 
     private GridBagConstraints getGridBagConstraints() {
@@ -65,19 +60,5 @@ public class LabyrinthPanel extends Panel<GridBagLayout> {
         gridBagConstraints.fill = GridBagConstraints.VERTICAL;
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         return gridBagConstraints;
-    }
-
-    private void loadImages() {
-        for (FieldType fieldType : FieldType.values()) {
-            imageMap.put(fieldType.getKey(), createImageIcon(fieldType.name()));
-        }
-    }
-
-    private ImageIcon createImageIcon(String imageName) {
-        return new ImageIcon(getPicture(imageName));
-    }
-
-    private URL getPicture(String image) {
-        return Objects.requireNonNull(getClass().getResource("/bomberman/field/" + image + ".png"));
     }
 }

@@ -1,7 +1,6 @@
 package application.client.model;
 
 import application.client.model.field.Bomb;
-import application.client.model.field.DestructibleBlock;
 import application.client.model.field.Field;
 import application.client.model.field.Free;
 import application.client.model.field.IndestructibleBlock;
@@ -14,20 +13,20 @@ import java.util.Map;
 public class Labyrinth {
     private final Map<String, Bomb> bombMap;
     private final Field[][] layout;
+    private final int height;
+    private final int width;
     private Player myPlayer;
     private List<Player> opponents;
 
-
-    public Labyrinth(int height, int width) {
+    public Labyrinth(char[][] layout) {
         bombMap = new HashMap<>();
-        layout = new Field[height][width];
+        height = layout.length;
+        width = layout[0].length;
+        this.layout = new Field[height][width];
     }
 
     public Field[][] getLayoutForRendering() {
-        Field[][] layoutCopy = new Field[layout.length][layout[0].length];
-        for (int x = 0; x < layout.length; x++) {
-            System.arraycopy(layout[x], 0, layoutCopy[x], 0, layout[x].length);
-        }
+        Field[][] layoutCopy = copyLayout();
         bombMap.values()
                 .forEach(bomb -> layoutCopy[bomb.getPositionX()][bomb.getPositionY()] = bomb);
         opponents.forEach(opponent -> layoutCopy[opponent.getX()][opponent.getY()] = opponent);
@@ -36,12 +35,12 @@ public class Labyrinth {
     }
 
     public void setLayout(char[][] layoutUpdate, Player myPlayer, List<Player> opponents) {
-        for (int i = 0; i < layout.length; i++) {
-            for (int j = 0; j < layout[i].length; j++) {
-                switch (layoutUpdate[i][j]) {
-                    case 'i' -> layout[i][j] = new IndestructibleBlock();
-                    case 'd' -> layout[i][j] = new DestructibleBlock();
-                    default -> layout[i][j] = new Free();
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                switch (layoutUpdate[x][y]) {
+                    case 'i' -> setFieldAt(x, y, new IndestructibleBlock());
+                    case 'd' -> setFieldAt(x, y, new Bomb(x, y));
+                    default -> setFieldAt(x, y, new Free());
                 }
             }
         }
@@ -50,15 +49,45 @@ public class Labyrinth {
     }
 
     public void removePlayer(int positionX, int positionY) {
-        layout[positionX][positionY] = new Free();
+        setFieldAt(positionX, positionY, new Free());
     }
 
     public void addBomb(String id, int x, int y) {
-        Bomb bomb = new Bomb(x, y);
-        this.bombMap.put(id, bomb);
+        this.bombMap.put(id, new Bomb(x, y));
     }
 
     public void removeBomb(String id) {
         this.bombMap.remove(id);
+    }
+
+    private Field[][] copyLayout() {
+        Field[][] layoutCopy = new Field[height][width];
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                layoutCopy[x][y] = getFieldAt(x, y);
+            }
+        }
+        return layoutCopy;
+    }
+
+    private Field getFieldAt(int x, int y) {
+        isValidCoordinate(x, y);
+        return layout[x][y];
+    }
+
+    private void setFieldAt(int x, int y, Field field) {
+        isValidCoordinate(x, y);
+        layout[x][y] = field;
+    }
+
+    private void isValidCoordinate(int x, int y) {
+        if (isNotValidCoordinate(x, y)) {
+            throw new ArrayIndexOutOfBoundsException("Invalid Coordinate x:" + x + " y:" + y);
+        }
+    }
+
+    private boolean isNotValidCoordinate(int x, int y) {
+        return x < 0 || x >= height
+                || y < 0 || y >= width;
     }
 }

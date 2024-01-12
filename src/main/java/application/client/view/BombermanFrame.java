@@ -9,6 +9,7 @@ public class BombermanFrame extends JFrame {
         setSize(1000, 1000);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(panel);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 }
