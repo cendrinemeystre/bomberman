@@ -1,7 +1,8 @@
-package application.client.view.panel;
+package application.client.view.panel.top;
 
 import application.client.control.ControlFactory;
 import application.client.control.client2server.JoinGameControl;
+import application.client.view.panel.Panel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class LoginPanel extends Panel<BorderLayout> {
     private JButton createLoginButton() {
         loginButton = new JButton("Anmelden");
         loginButton.addActionListener(e -> {
-            JoinGameControl control = ControlFactory.instance().createClient2ServerControl(JoinGameControl.class);
+            JoinGameControl control = ControlFactory.instance().createClientToServerControl(JoinGameControl.class);
             control.joinGame(playerNameTextField.getText());
             enableLogin(false);
         });

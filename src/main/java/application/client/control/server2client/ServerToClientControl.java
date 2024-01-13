@@ -6,8 +6,8 @@ import application.client.view.BombermanPanel;
 import network.Message;
 import network.client.ServerProxy;
 
-public abstract class Server2ClientControl<T extends Message> extends Control {
-    public Server2ClientControl(ServerProxy serverProxy, Game game, BombermanPanel view) {
+public abstract class ServerToClientControl<T extends Message> extends Control {
+    public ServerToClientControl(ServerProxy serverProxy, Game game, BombermanPanel view) {
         super(serverProxy, game, view);
     }
 

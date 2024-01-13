@@ -5,7 +5,7 @@ import application.client.view.BombermanPanel;
 import network.client.ServerProxy;
 import protocol.server2client.Update;
 
-public class UpdateControl extends Server2ClientControl<Update> {
+public class UpdateControl extends ServerToClientControl<Update> {
     public UpdateControl(ServerProxy serverProxy, Game game, BombermanPanel view) {
         super(serverProxy, game, view);
     }

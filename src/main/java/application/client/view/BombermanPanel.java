@@ -1,14 +1,15 @@
 package application.client.view;
 
-import application.client.control.ControlFactory;
-import application.client.control.client2server.DropBombControl;
-import application.client.control.client2server.MovePlayerControl;
 import application.client.model.Game;
 import application.client.model.field.Player;
 import application.client.view.panel.LabyrinthPanel;
 import application.client.view.panel.LoginPanel;
 import application.client.view.panel.MessagePanel;
 import protocol.Direction;
+import application.client.view.adapter.BombermanKeyAdapter;
+import application.client.view.panel.top.LoginPanel;
+import application.client.view.panel.bottom.MessagePanel;
+import application.client.view.panel.main.LabyrinthPanel;
 
 import javax.swing.*;
 import java.awt.*;

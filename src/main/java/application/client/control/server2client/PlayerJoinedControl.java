@@ -5,7 +5,7 @@ import application.client.view.BombermanPanel;
 import network.client.ServerProxy;
 import protocol.server2client.PlayerJoined;
 
-public class PlayerJoinedControl extends Server2ClientControl<PlayerJoined> {
+public class PlayerJoinedControl extends ServerToClientControl<PlayerJoined> {
     public PlayerJoinedControl(ServerProxy serverProxy, Game game, BombermanPanel view) {
         super(serverProxy, game, view);
     }

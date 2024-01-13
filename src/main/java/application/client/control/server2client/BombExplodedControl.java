@@ -5,7 +5,7 @@ import application.client.view.BombermanPanel;
 import network.client.ServerProxy;
 import protocol.server2client.BombExploded;
 
-public class BombExplodedControl extends Server2ClientControl<BombExploded> {
+public class BombExplodedControl extends ServerToClientControl<BombExploded> {
     public BombExplodedControl(ServerProxy serverProxy, Game game, BombermanPanel view) {
         super(serverProxy, game, view);
     }

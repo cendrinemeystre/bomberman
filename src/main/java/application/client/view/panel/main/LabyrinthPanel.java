@@ -1,8 +1,9 @@
-package application.client.view.panel;
+package application.client.view.panel.main;
 
 import application.client.model.Game;
 import application.client.model.field.Field;
 import application.client.view.helper.ImageLoader;
+import application.client.view.panel.Panel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,7 @@ public class LabyrinthPanel extends Panel<GridBagLayout> {
     public JPanel createPanel() {
         JPanel panel = getPanel();
         panel.setFocusable(true);
+        panel.setVisible(true);
         return panel;
     }
 

@@ -1,7 +1,7 @@
 package application.client.control;
 
 import application.client.control.client2server.Client2ServerControl;
-import application.client.control.server2client.Server2ClientControl;
+import application.client.control.server2client.ServerToClientControl;
 import application.client.model.Game;
 import application.client.view.BombermanPanel;
 import network.client.ServerProxy;
@@ -30,7 +30,7 @@ public class ControlFactory {
         }
     }
 
-    public <T extends Client2ServerControl> T createClient2ServerControl(Class<T> controlClass) {
+    public <T extends Client2ServerControl> T createClientToServerControl(Class<T> controlClass) {
         try {
             Constructor<T> constructor = controlClass.getConstructor(ServerProxy.class, Game.class, BombermanPanel.class);
             return constructor.newInstance(serverProxy, game, view);
@@ -40,7 +40,7 @@ public class ControlFactory {
         }
     }
 
-    public <T extends Server2ClientControl> T createServer2ClientControl(Class<T> controlClass) {
+    public <T extends ServerToClientControl> T createServer2ClientControl(Class<T> controlClass) {
         try {
             Constructor<T> constructor = controlClass.getConstructor(ServerProxy.class, Game.class, BombermanPanel.class);
             return constructor.newInstance(serverProxy, game, view);

@@ -5,7 +5,7 @@ import application.client.view.BombermanPanel;
 import network.client.ServerProxy;
 import protocol.server2client.PlayerMoved;
 
-public class PlayerMovedControl extends Server2ClientControl<PlayerMoved> {
+public class PlayerMovedControl extends ServerToClientControl<PlayerMoved> {
     public PlayerMovedControl(ServerProxy serverProxy, Game game, BombermanPanel view) {
         super(serverProxy, game, view);
     }

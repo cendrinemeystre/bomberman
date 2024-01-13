@@ -1,4 +1,6 @@
-package application.client.view.panel;
+package application.client.view.panel.bottom;
+
+import application.client.view.panel.Panel;
 
 import javax.swing.*;
 import java.awt.*;
