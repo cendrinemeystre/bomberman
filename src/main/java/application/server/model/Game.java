@@ -42,7 +42,13 @@ public class Game {
     }
 
     private int[] getRandomPosition() {
-        return new int[] { random.nextInt(1, labyrinth.getWidth() + 1), random.nextInt(1, labyrinth.getHeight() + 1) };
+        int x = 0;
+        int y = 0;
+        do {
+            x = random.nextInt(1, labyrinth.getWidth() + 1);
+            y = random.nextInt(1, labyrinth.getHeight() + 1);
+        } while (!labyrinth.getTile(x, y).isEmpty());
+        return new int[] { x, y };
     }
 
     public boolean isMovePossible(String playerName, Direction direction) {
