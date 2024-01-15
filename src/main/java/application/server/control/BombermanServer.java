@@ -5,14 +5,14 @@ import application.server.model.Game;
 import application.server.network.MessageEntry;
 import application.server.network.MessageQueue;
 import network.server.Server;
-import network.server.ServerStub;
+import network.server.ServerImplementation;
 
 public class BombermanServer {
 
     private BombermanServer() {
         MessageQueue queue = new MessageQueue();
         MessageEntry entry = new MessageEntry(queue);
-        Server server = new ServerStub(entry);
+        Server server = new ServerImplementation(entry);
         Labyrinth labyrinth = new Labyrinth();
         Game game = new Game(labyrinth);
         ControllerFactory controllerFactory = new ControllerFactory(server, game);
