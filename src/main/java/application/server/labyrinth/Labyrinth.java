@@ -67,7 +67,7 @@ public class Labyrinth {
         return map;
     }
 
-    public boolean isTileEmpty(int x, int y) {
+    public boolean isNextTileEmpty(int x, int y) {
         if (tiles.length > x && tiles[0].length > y && x >= 0 && y >= 0) {
             return tiles[x][y].isEmpty();
         } else

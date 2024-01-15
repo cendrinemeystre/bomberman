@@ -48,13 +48,13 @@ public class Game {
     public boolean isMovePossible(String playerName, Direction direction) {
 
         return switch (direction) {
-            case UP -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX(),
+            case UP -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX(),
                     getPlayerByName(playerName).getY() - 1);
-            case DOWN -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX(),
+            case DOWN -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX(),
                     getPlayerByName(playerName).getY() + 1);
-            case LEFT -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX() - 1,
+            case LEFT -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX() - 1,
                     getPlayerByName(playerName).getY());
-            case RIGHT -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX() + 1,
+            case RIGHT -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX() + 1,
                     getPlayerByName(playerName).getY());
         };
 

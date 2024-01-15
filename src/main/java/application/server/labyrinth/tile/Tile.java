@@ -10,6 +10,7 @@ public class Tile {
     private TileOccupation occupation;
 
     public Tile() {
+        // for JPA
     }
 
     public Tile(int x, int y) {
