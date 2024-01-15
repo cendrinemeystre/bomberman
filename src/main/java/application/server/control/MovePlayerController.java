@@ -19,7 +19,7 @@ public class MovePlayerController extends Controller {
             game.movePlayer(message.getPlayerName(), playerMessage.getDirection());
             server.broadcast(new PlayerMoved(message.getPlayerName(), playerMessage.getDirection()));
         } else {
-            server.send(new ErrorMessage("You can't go that way"), connectionId);
+            sendErrorMessage("You can't go that way", connectionId);
         }
     }
 }

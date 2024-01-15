@@ -25,6 +25,10 @@ public class Labyrinth {
         this.tiles = new Tile[width][height];
         this.width = width;
         this.height = height;
+        setTiles(width, height);
+    }
+
+    private void setTiles(int width, int height) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 this.tiles[x][y] = new Tile(x, y);

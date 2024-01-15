@@ -154,7 +154,7 @@ public class Game {
     }
 
     public String getWinner() {
-        Player winner = players.getFirst();
+        Player winner = players.get(0);
         for (Player player : players) {
             if (player.getScore() > winner.getScore()) {
 
