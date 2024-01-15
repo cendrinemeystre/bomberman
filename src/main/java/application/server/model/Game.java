@@ -1,8 +1,5 @@
 package application.server.model;
 
-import application.server.labyrinth.Labyrinth;
-import protocol.Direction;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,6 +7,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import application.server.labyrinth.Labyrinth;
+import protocol.Direction;
 
 public class Game {
     private static final int NB_OF_PLAYERS = 4;
@@ -42,19 +42,25 @@ public class Game {
     }
 
     private int[] getRandomPosition() {
-        return new int[]{random.nextInt(1, labyrinth.getWidth() + 1), random.nextInt(1, labyrinth.getHeight() + 1)};
+        int x = 0;
+        int y = 0;
+        do {
+            x = random.nextInt(1, labyrinth.getWidth() + 1);
+            y = random.nextInt(1, labyrinth.getHeight() + 1);
+        } while (!labyrinth.getTile(x, y).isEmpty());
+        return new int[] { x, y };
     }
 
     public boolean isMovePossible(String playerName, Direction direction) {
 
         return switch (direction) {
-            case UP -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX(),
+            case UP -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX(),
                     getPlayerByName(playerName).getY() - 1);
-            case DOWN -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX(),
+            case DOWN -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX(),
                     getPlayerByName(playerName).getY() + 1);
-            case LEFT -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX() - 1,
+            case LEFT -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX() - 1,
                     getPlayerByName(playerName).getY());
-            case RIGHT -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX() + 1,
+            case RIGHT -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX() + 1,
                     getPlayerByName(playerName).getY());
         };
 
@@ -154,7 +160,7 @@ public class Game {
     }
 
     public String getWinner() {
-        Player winner = players.getFirst();
+        Player winner = players.get(0);
         for (Player player : players) {
             if (player.getScore() > winner.getScore()) {
 

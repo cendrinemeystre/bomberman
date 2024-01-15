@@ -3,6 +3,7 @@ package application.client.view.adapter;
 import application.client.control.ControlFactory;
 import application.client.control.client2server.DropBombControl;
 import application.client.control.client2server.MovePlayerControl;
+import application.client.model.Game;
 import application.client.model.field.Player;
 import protocol.Direction;
 

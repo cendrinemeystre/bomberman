@@ -5,7 +5,6 @@ import application.server.model.Player;
 import network.Message;
 import network.server.Server;
 import protocol.client2server.ClientMessage;
-import protocol.server2client.ErrorMessage;
 import protocol.server2client.StartGame;
 
 public class JoinGameController extends Controller {
@@ -17,18 +16,22 @@ public class JoinGameController extends Controller {
     @Override
     public void handleMessage(ClientMessage message, String connectionId) {
         if (game.numberOfPlayersComplete()) {
-            Message response = new ErrorMessage("Spiel läuft bereits");
-            server.send(response, connectionId);
+            sendErrorMessage("Spiel läuft bereits", connectionId);
         } else if (!game.isUnique(message.getPlayerName())) {
-            Message response = new ErrorMessage("Spielername ist bereits vergeben");
-            server.send(response, connectionId);
+            sendErrorMessage("Spielername ist bereits vergeben", connectionId);
         } else {
-            Player player = game.createPlayer(message.getPlayerName(), connectionId);
-            Message response = player.createPlayerJoined();
-            server.broadcast(response);
-            if (game.numberOfPlayersComplete()) {
-                server.broadcast(new StartGame(game.getLabyrinth().getCharMap()));
-            }
+            joinGame(message, connectionId);
+        }
+    }
+
+    private void joinGame(ClientMessage message, String connectionId) {
+        Player player = game.createPlayer(message.getPlayerName(), connectionId);
+        Message response = player.createPlayerJoined();
+        System.out.println("player has joined" + connectionId);
+        server.broadcast(response);
+        if (game.numberOfPlayersComplete()) {
+            server.broadcast(new StartGame(game.getLabyrinth().getCharMap()));
+            System.out.println("game has started");
         }
     }
 }

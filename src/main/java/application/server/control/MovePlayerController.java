@@ -4,7 +4,6 @@ import application.server.model.Game;
 import network.server.Server;
 import protocol.client2server.ClientMessage;
 import protocol.client2server.MovePlayer;
-import protocol.server2client.ErrorMessage;
 import protocol.server2client.PlayerMoved;
 
 public class MovePlayerController extends Controller {
@@ -19,7 +18,7 @@ public class MovePlayerController extends Controller {
             game.movePlayer(message.getPlayerName(), playerMessage.getDirection());
             server.broadcast(new PlayerMoved(message.getPlayerName(), playerMessage.getDirection()));
         } else {
-            server.send(new ErrorMessage("You can't go that way"), connectionId);
+            sendErrorMessage("You can't go that way", connectionId);
         }
     }
 }

@@ -49,7 +49,6 @@ public class BombermanPanel extends JPanel {
             message.append(score).append("\n");
         }
         displayMessage(message.toString());
-        highscorePanel.display(winnerName, highscoreList);
         removeKeyListener(keyAdapter);
         loginPanel.enableLogin(true);
     }
