@@ -1,5 +1,7 @@
 package application.server.control;
 
+import java.util.List;
+
 import application.server.model.Game;
 import network.server.Server;
 import protocol.client2server.ClientMessage;
@@ -9,8 +11,6 @@ import protocol.server2client.BombExploded;
 import protocol.server2client.GameOver;
 import protocol.server2client.PlayerHit;
 import protocol.server2client.Update;
-
-import java.util.List;
 
 public class DropBombController extends Controller {
 

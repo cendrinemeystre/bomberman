@@ -5,6 +5,7 @@ import application.client.control.client2server.DropBombControl;
 import application.client.control.client2server.MovePlayerControl;
 import application.client.model.Game;
 import application.client.model.field.Player;
+import application.client.view.adapter.BombermanKeyAdapter;
 import application.client.view.panel.LabyrinthPanel;
 import application.client.view.panel.LoginPanel;
 import application.client.view.panel.MessagePanel;
@@ -48,7 +49,7 @@ public class BombermanPanel extends JPanel {
             message.append(score).append("\n");
         }
         displayMessage(message.toString());
-        highscorePanel.display(winnerName, highscoreList);
+        //highscorePanel.display(winnerName, highscoreList);
         removeKeyListener(keyAdapter);
         loginPanel.enableLogin(true);
     }

@@ -1,11 +1,11 @@
 package application.server.labyrinth;
 
-import application.server.labyrinth.tile.Tile;
-import application.server.model.Bomb;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import application.server.labyrinth.tile.Tile;
+import application.server.model.Bomb;
 
 import static application.server.labyrinth.tile.TileOccupation.BOMB;
 import static application.server.labyrinth.tile.TileType.FREE;
@@ -42,9 +42,7 @@ public class Labyrinth {
         for (Tile[] tile : tiles) {
             tileList.addAll(Arrays.asList(tile).subList(0, tiles[0].length));
         }
-
         return tileList;
-
     }
 
     public int getWidth() {

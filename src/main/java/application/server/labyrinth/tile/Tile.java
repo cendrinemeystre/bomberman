@@ -2,12 +2,15 @@ package application.server.labyrinth.tile;
 
 public class Tile {
 
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
 
     private TileType type;
 
     private TileOccupation occupation;
+
+    public Tile() {
+    }
 
     public Tile(int x, int y) {
         this.x = x;
@@ -44,8 +47,18 @@ public class Tile {
         return x;
     }
 
+    public void setX(int x) {
+        this.x = x;
+        // for JPA
+    }
+
     public int getY() {
         return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+        // for JPA
     }
 
     public boolean hit() {

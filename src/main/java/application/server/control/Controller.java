@@ -1,7 +1,6 @@
 package application.server.control;
 
 import application.server.model.Game;
-import network.Message;
 import network.server.Server;
 import protocol.client2server.ClientMessage;
 import protocol.server2client.ErrorMessage;

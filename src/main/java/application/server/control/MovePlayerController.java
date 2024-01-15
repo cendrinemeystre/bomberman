@@ -4,7 +4,6 @@ import application.server.model.Game;
 import network.server.Server;
 import protocol.client2server.ClientMessage;
 import protocol.client2server.MovePlayer;
-import protocol.server2client.ErrorMessage;
 import protocol.server2client.PlayerMoved;
 
 public class MovePlayerController extends Controller {
