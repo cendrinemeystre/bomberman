@@ -37,16 +37,23 @@ public class Game {
 
     public Player createPlayer(String playerName, String connectionId) {
         Player player = new Player(playerName, connectionId, getRandomPosition());
+        addPlayerToLabyrinth(player);
         players.add(player);
         return player;
+    }
+
+    private void addPlayerToLabyrinth(Player player) {
+        labyrinth.getTile(player.getX(), player.getY()).addPlayer(player);
     }
 
     private int[] getRandomPosition() {
         int x = 0;
         int y = 0;
         do {
-            x = random.nextInt(1, labyrinth.getWidth() + 1);
-            y = random.nextInt(1, labyrinth.getHeight() + 1);
+            x = random.nextInt(0, labyrinth.getWidth());
+            y = random.nextInt(0, labyrinth.getHeight());
+            System.out.println("Random position" + x + " " + y);
+            System.out.println(labyrinth.getTile(x, y).isEmpty());
         } while (!labyrinth.getTile(x, y).isEmpty());
         return new int[] { x, y };
     }
@@ -68,13 +75,16 @@ public class Game {
 
     public void movePlayer(String playerName, Direction direction) {
 
+        labyrinth.getTile(getPlayerByName(playerName).getX(), getPlayerByName(playerName).getY()).setOccupation('f');
+
         switch (direction) {
             case UP -> getPlayerByName(playerName).setY(getPlayerByName(playerName).getY() - 1);
             case DOWN -> getPlayerByName(playerName).setY(getPlayerByName(playerName).getY() + 1);
             case LEFT -> getPlayerByName(playerName).setX(getPlayerByName(playerName).getX() - 1);
             case RIGHT -> getPlayerByName(playerName).setX(getPlayerByName(playerName).getX() + 1);
         }
-
+        labyrinth.getTile(getPlayerByName(playerName).getX(), getPlayerByName(playerName).getY())
+                .setOccupation(getPlayerByName(playerName).getIcon());
     }
 
     public Labyrinth getLabyrinth() {

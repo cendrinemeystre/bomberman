@@ -1,5 +1,7 @@
 package application.server.labyrinth.tile;
 
+import application.server.model.Player;
+
 public class Tile {
 
     private int x;
@@ -7,7 +9,7 @@ public class Tile {
 
     private TileType type;
 
-    private TileOccupation occupation;
+    private char occupation = 'f';
 
     public Tile() {
         // for JPA
@@ -27,11 +29,11 @@ public class Tile {
         this.type = type;
     }
 
-    public TileOccupation getOccupation() {
+    public char getOccupation() {
         return occupation;
     }
 
-    public void setOccupation(TileOccupation occupation) {
+    public void setOccupation(char occupation) {
         this.occupation = occupation;
     }
 
@@ -41,7 +43,7 @@ public class Tile {
     }
 
     public boolean isEmpty() {
-        return this.type == TileType.FREE && this.occupation == null;
+        return this.type == TileType.FREE && this.occupation == 'f';
     }
 
     public int getX() {
@@ -70,5 +72,9 @@ public class Tile {
         }
         return false;
 
+    }
+
+    public void addPlayer(Player player) {
+        this.occupation = player.getIcon();
     }
 }

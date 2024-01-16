@@ -25,9 +25,10 @@ public class JoinGameController extends Controller {
     }
 
     private void joinGame(ClientMessage message, String connectionId) {
+        System.out.println("player connecting " + connectionId);
         Player player = game.createPlayer(message.getPlayerName(), connectionId);
         Message response = player.createPlayerJoined();
-        System.out.println("player has joined" + connectionId);
+        System.out.println("player has joined " + connectionId);
         server.broadcast(response);
         if (game.numberOfPlayersComplete()) {
             server.broadcast(new StartGame(game.getLabyrinth().getCharMap()));

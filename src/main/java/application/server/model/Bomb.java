@@ -2,6 +2,7 @@ package application.server.model;
 
 public class Bomb {
     private final String id;
+    public static final char ICON = 'b';
     private int x;
     private int y;
     private boolean exploded;

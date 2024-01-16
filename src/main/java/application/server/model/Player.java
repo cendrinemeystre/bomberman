@@ -6,6 +6,7 @@ import protocol.server2client.PlayerJoined;
 public class Player {
     private final String name;
     private final String connectionId;
+    private final char icon;
     private int x;
     private int y;
     private boolean alive;
@@ -14,6 +15,7 @@ public class Player {
     public Player(String name, String connectionId, int[] position) {
         this.name = name;
         this.connectionId = connectionId;
+        this.icon = connectionId.charAt(0);
         this.x = position[0];
         this.y = position[1];
         score = 0;
@@ -66,5 +68,9 @@ public class Player {
 
     public int getScore() {
         return score;
+    }
+
+    public char getIcon() {
+        return icon;
     }
 }
