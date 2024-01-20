@@ -46,10 +46,10 @@ public class Game {
         int nextX = player.getX();
         int nextY = player.getY();
         switch (direction) {
-            case UP -> nextX--;
-            case DOWN -> nextX++;
-            case LEFT -> nextY--;
-            case RIGHT -> nextY++;
+            case UP -> nextY--;
+            case DOWN -> nextY++;
+            case LEFT -> nextX--;
+            case RIGHT -> nextX++;
         }
         player.setPosition(nextX, nextY);
     }

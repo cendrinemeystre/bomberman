@@ -13,34 +13,34 @@ import java.util.Map;
 public class Labyrinth {
     private final Map<String, Bomb> bombMap;
     private final Field[][] layout;
-    private final int height;
-    private final int width;
+    private final int y;
+    private final int x;
     private Player myPlayer;
     private List<Player> opponents;
 
     public Labyrinth(char[][] layout) {
         bombMap = new HashMap<>();
-        height = layout.length;
-        width = layout[0].length;
-        this.layout = new Field[height][width];
+        x = layout.length;
+        y = layout[0].length;
+        this.layout = new Field[x][y];
     }
 
     public Field[][] getLayoutForRendering() {
         Field[][] layoutCopy = copyLayout();
         bombMap.values()
-                .forEach(bomb -> layoutCopy[bomb.getPositionX()][bomb.getPositionY()] = bomb);
-        opponents.forEach(opponent -> layoutCopy[opponent.getX()][opponent.getY()] = opponent);
-        layoutCopy[myPlayer.getX()][myPlayer.getY()] = myPlayer;
+                .forEach(bomb -> layoutCopy[bomb.getPositionY()][bomb.getPositionX()] = bomb);
+        opponents.forEach(opponent -> layoutCopy[opponent.getY()][opponent.getX()] = opponent);
+        layoutCopy[myPlayer.getY()][myPlayer.getX()] = myPlayer;
         return layoutCopy;
     }
 
     public void setLayout(char[][] layoutUpdate, Player myPlayer, List<Player> opponents) {
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                switch (layoutUpdate[x][y]) {
-                    case 'i' -> setFieldAt(x, y, new IndestructibleBlock());
-                    case 'd' -> setFieldAt(x, y, new Bomb(x, y));
-                    default -> setFieldAt(x, y, new Free());
+        for (int y = 0; y < this.y; y++) {
+            for (int x = 0; x < this.x; x++) {
+                switch (layoutUpdate[y][x]) {
+                    case 'i' -> setFieldAt(y, x, new IndestructibleBlock());
+                    case 'd' -> setFieldAt(y, x, new Bomb(y, x));
+                    default -> setFieldAt(y, x, new Free());
                 }
             }
         }
@@ -61,10 +61,10 @@ public class Labyrinth {
     }
 
     private Field[][] copyLayout() {
-        Field[][] layoutCopy = new Field[height][width];
-        for (int x = 0; x < height; x++) {
-            for (int y = 0; y < width; y++) {
-                layoutCopy[x][y] = getFieldAt(x, y);
+        Field[][] layoutCopy = new Field[y][x];
+        for (int y = 0; y < this.y; y++) {
+            for (int x = 0; x < this.x; x++) {
+                layoutCopy[y][x] = getFieldAt(x, y);
             }
         }
         return layoutCopy;
@@ -72,12 +72,12 @@ public class Labyrinth {
 
     private Field getFieldAt(int x, int y) {
         isValidCoordinate(x, y);
-        return layout[x][y];
+        return layout[y][x];
     }
 
     private void setFieldAt(int x, int y, Field field) {
         isValidCoordinate(x, y);
-        layout[x][y] = field;
+        layout[y][x] = field;
     }
 
     private void isValidCoordinate(int x, int y) {
@@ -87,7 +87,7 @@ public class Labyrinth {
     }
 
     private boolean isNotValidCoordinate(int x, int y) {
-        return x < 0 || x >= height
-                || y < 0 || y >= width;
+        return x < 0 || x >= this.y
+                || y < 0 || y >= this.x;
     }
 }
