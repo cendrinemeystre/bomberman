@@ -1,6 +1,7 @@
 package application.server.control;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import application.server.model.Game;
 import network.server.Server;
@@ -19,16 +20,23 @@ public class DropBombController extends Controller {
     }
 
     @Override
-    public void handleMessage(ClientMessage message, String connectionId) {
+    public void handleMessage(ClientMessage message, String connectionId) throws InterruptedException {
         DropBomb dropBombMessage = (DropBomb) message;
         String bombId = game.dropBomb(dropBombMessage.getPositionX(), dropBombMessage.getPositionY());
         server.broadcast(new BombDropped(bombId, dropBombMessage.getPositionX(), dropBombMessage.getPositionY()));
-        if (game.bombTimer(game.getBombById(bombId))) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             explodeBomb(bombId, dropBombMessage);
-        }
+        });
+
     }
 
     private void explodeBomb(String bombId, DropBomb dropBombMessage) {
+
         server.broadcast(new BombExploded(bombId));
         List<String> hitPlayers = game.checkPlayerHit(game.getBombById(bombId));
         for (String playerName : hitPlayers) {
@@ -39,7 +47,6 @@ public class DropBombController extends Controller {
         game.updateLabyrinth(game.getBombById(bombId));
         server.broadcast(new Update(game.getLabyrinth().getCharMap()));
         if (!game.checkIfRunning()) {
-            // TODO give the real winnerName as input
             server.broadcast(new GameOver("winner", game.getScoreboard()));
         }
     }

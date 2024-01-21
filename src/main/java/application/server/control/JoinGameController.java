@@ -2,7 +2,6 @@ package application.server.control;
 
 import application.server.model.Game;
 import application.server.model.Player;
-import network.Message;
 import network.server.Server;
 import protocol.client2server.ClientMessage;
 import protocol.server2client.StartGame;
@@ -26,10 +25,12 @@ public class JoinGameController extends Controller {
 
     private void joinGame(ClientMessage message, String connectionId) {
         System.out.println("player connecting " + connectionId);
-        Player player = game.createPlayer(message.getPlayerName(), connectionId);
-        Message response = player.createPlayerJoined();
-        System.out.println("player has joined " + connectionId);
-        server.broadcast(response);
+        game.createPlayer(message.getPlayerName(), connectionId);
+        System.out.println("players has joined " + connectionId);
+        for (Player p : game.getPlayers()) {
+            server.broadcast(p.createPlayerJoined());
+            System.out.println("players has joined " + p.getName());
+        }
         if (game.numberOfPlayersComplete()) {
             server.broadcast(new StartGame(game.getLabyrinth().getCharMap()));
             System.out.println("game has started");

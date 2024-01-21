@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import application.server.labyrinth.Labyrinth;
 import protocol.Direction;
@@ -107,20 +105,6 @@ public class Game {
         return newBomb.getId();
     }
 
-    public boolean bombTimer(Bomb bomb) {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (!bomb.isExploded()) {
-                    bomb.explode();
-                }
-            }
-        }, 2000);
-
-        return true;
-    }
-
     public List<String> checkPlayerHit(Bomb bomb) {
 
         List<String> hitPlayers = new ArrayList<>();
@@ -187,5 +171,9 @@ public class Game {
             scoreboard[i] = players.get(i).getScore() + ": " + players.get(i).getName();
         }
         return scoreboard;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }

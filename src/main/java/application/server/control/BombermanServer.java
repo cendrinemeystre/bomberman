@@ -18,7 +18,7 @@ public class BombermanServer {
         MessageQueue queue = new MessageQueue();
         MessageEntry entry = new MessageEntry(queue);
         Server server = new ServerImplementation(entry);
-        Labyrinth labyrinth = loadLabyrint(3);
+        Labyrinth labyrinth = loadLabyrint(2);
         Game game = new Game(labyrinth);
         ControllerFactory controllerFactory = new ControllerFactory(server, game);
         Dispatcher dispatcher = new Dispatcher(queue, controllerFactory);

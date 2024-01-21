@@ -26,13 +26,25 @@ public class Dispatcher extends Thread {
             Controller controller;
             if (message instanceof JoinGame) {
                 controller = controllerFactory.createJoinGameController();
-                controller.handleMessage(message, connectionId);
+                try {
+                    controller.handleMessage(message, connectionId);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             } else if (message instanceof MovePlayer) {
                 controller = controllerFactory.createMovePlayerController();
-                controller.handleMessage(message, connectionId);
+                try {
+                    controller.handleMessage(message, connectionId);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             } else if (message instanceof DropBomb) {
                 controller = controllerFactory.createDropBombController();
-                controller.handleMessage(message, connectionId);
+                try {
+                    controller.handleMessage(message, connectionId);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

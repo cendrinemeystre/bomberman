@@ -14,7 +14,7 @@ public abstract class Controller {
         this.game = game;
     }
 
-    public abstract void handleMessage(ClientMessage message, String connectionId);
+    public abstract void handleMessage(ClientMessage message, String connectionId) throws InterruptedException;
 
     protected void sendErrorMessage(String errorMessage, String connectionId) {
         server.send(new ErrorMessage(errorMessage), connectionId);
