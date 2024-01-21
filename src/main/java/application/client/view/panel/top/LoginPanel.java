@@ -34,7 +34,6 @@ public class LoginPanel extends Panel<BorderLayout> {
         loginButton.addActionListener(e -> {
             JoinGameControl control = ControlFactory.instance().createClientToServerControl(JoinGameControl.class);
             control.joinGame(playerNameTextField.getText());
-            enableLogin(false);
         });
         return loginButton;
     }

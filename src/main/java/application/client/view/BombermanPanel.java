@@ -27,6 +27,10 @@ public class BombermanPanel extends JPanel {
         add(messagePanel.createPanel(), BorderLayout.SOUTH);
     }
 
+    public void loggedIn(){
+        loginPanel.enableLogin(false);
+    }
+
     public void startGame(Game game) {
         labyrinthPanel.setGame(game);
         labyrinthPanel.updateGameMap();

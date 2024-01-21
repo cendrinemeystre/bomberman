@@ -1,6 +1,7 @@
 package application.client.model;
 
 import application.client.model.field.Bomb;
+import application.client.model.field.DestructibleBlock;
 import application.client.model.field.Field;
 import application.client.model.field.Free;
 import application.client.model.field.IndestructibleBlock;
@@ -13,16 +14,16 @@ import java.util.Map;
 public class Labyrinth {
     private final Map<String, Bomb> bombMap;
     private final Field[][] layout;
-    private final int y;
     private final int x;
+    private final int y;
     private Player myPlayer;
     private List<Player> opponents;
 
     public Labyrinth(char[][] layout) {
         bombMap = new HashMap<>();
-        x = layout.length;
-        y = layout[0].length;
-        this.layout = new Field[x][y];
+        x = layout[0].length;
+        y = layout.length;
+        this.layout = new Field[y][x];
     }
 
     public Field[][] getLayoutForRendering() {
@@ -35,12 +36,13 @@ public class Labyrinth {
     }
 
     public void setLayout(char[][] layoutUpdate, Player myPlayer, List<Player> opponents) {
-        for (int y = 0; y < this.y; y++) {
-            for (int x = 0; x < this.x; x++) {
-                switch (layoutUpdate[y][x]) {
-                    case 'i' -> setFieldAt(y, x, new IndestructibleBlock());
-                    case 'd' -> setFieldAt(y, x, new Bomb(y, x));
-                    default -> setFieldAt(y, x, new Free());
+        for (int x = 0; x < this.y; x++) {
+            for (int y = 0; y < this.x; y++) {
+                switch (layoutUpdate[x][y]) {
+                    case 'i' -> setFieldAt(x, y, new IndestructibleBlock());
+                    case 'd' -> setFieldAt(x, y, new DestructibleBlock());
+                    case 'b' -> setFieldAt(x, y, new Bomb(x, y));
+                    default -> setFieldAt(x, y, new Free());
                 }
             }
         }
@@ -81,13 +83,12 @@ public class Labyrinth {
     }
 
     private void isValidCoordinate(int x, int y) {
-        if (isNotValidCoordinate(x, y)) {
+        if (isSmallerThan(x, this.x) || isSmallerThan(y, this.y)) {
             throw new ArrayIndexOutOfBoundsException("Invalid Coordinate x:" + x + " y:" + y);
         }
     }
 
-    private boolean isNotValidCoordinate(int x, int y) {
-        return x < 0 || x >= this.y
-                || y < 0 || y >= this.x;
+    private boolean isSmallerThan(int i, int thisI) {
+        return i < 0 || i >= thisI;
     }
 }

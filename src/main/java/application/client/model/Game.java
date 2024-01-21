@@ -27,6 +27,10 @@ public class Game {
         labyrinth.setLayout(layout, myPlayer, opponents);
     }
 
+    public boolean isMyPlayer(PlayerJoined message){
+        return myPlayer.isName(message.getPlayerName());
+    }
+
     public void playerJoined(PlayerJoined message) {
         String playerName = message.getPlayerName();
         int initialX = message.getInitialPositionX();
