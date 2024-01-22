@@ -12,7 +12,7 @@ public class GameOverControl extends ServerToClientControl<GameOver> {
 
     @Override
     public void handleMessage(GameOver message) {
-        game.gameOver();
         view.gameOver(message.getWinnerName(), message.getHighscoreList());
+        game.gameOver();
     }
 }

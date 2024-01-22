@@ -51,13 +51,17 @@ public class Labyrinth {
     }
 
     public void removePlayer(int positionX, int positionY) {
-        opponents.stream() //
-                .filter(o -> o.getX() == positionX && o.getY() == positionY) //
-                .findFirst() //
-                .ifPresent(e -> {
-                    opponents.remove(e);
-                    setFieldAt(positionX, positionY, new Free());
-                });
+        if (myPlayer.getX() == positionX && myPlayer.getY() == positionY) {
+            setFieldAt(positionX, positionY, new Free());
+        } else {
+            opponents.stream() //
+                    .filter(o -> o.getX() == positionX && o.getY() == positionY) //
+                    .findFirst() //
+                    .ifPresent(e -> {
+                        opponents.remove(e);
+                        setFieldAt(positionX, positionY, new Free());
+                    });
+        }
     }
 
     public void addBomb(String id, int x, int y) {
