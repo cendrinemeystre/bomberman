@@ -33,8 +33,7 @@ public class Bomb {
     }
 
     public boolean checkIfHit(int x, int y) {
-        return (this.y == y && (this.x - 1 <= x || this.x + 1 >= x))
-                || (this.x == x && (this.y + 1 >= y || this.y - 1 <= y));
+        return (this.y == y && (this.x - 1 == x || this.x + 1 == x))
+                || (this.x == x && (this.y + 1 == y || this.y - 1 == y)) || (this.y == y && this.x == x);
     }
-
 }
