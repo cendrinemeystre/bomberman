@@ -12,10 +12,12 @@ public class PlayerJoinedControl extends ServerToClientControl<PlayerJoined> {
 
     @Override
     public void handleMessage(PlayerJoined message) {
-        if(game.isMyPlayer(message)){
+        if (game.isMyPlayer(message)) {
             view.loggedIn();
         }
-        game.playerJoined(message);
-        view.displayMessage(message.getPlayerName() + " hat sich angemeldet.");
+        if (!game.isOpponent(message)) {
+            game.playerJoined(message);
+            view.displayMessage(message.getPlayerName() + " hat sich angemeldet.");
+        }
     }
 }

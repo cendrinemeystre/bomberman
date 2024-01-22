@@ -31,6 +31,10 @@ public class Game {
         return myPlayer.isName(message.getPlayerName());
     }
 
+    public boolean isOpponent(PlayerJoined message){
+         return opponents.stream().noneMatch(opponent -> opponent.isName(message.getPlayerName()));
+    }
+
     public void playerJoined(PlayerJoined message) {
         String playerName = message.getPlayerName();
         int initialX = message.getInitialPositionX();
@@ -89,7 +93,7 @@ public class Game {
         return switch (size) {
             case 0 -> FieldType.OPPONENT_1;
             case 1 -> FieldType.OPPONENT_2;
-            case 2 -> FieldType.OPPONENT_3;
+            case 2, 3 -> FieldType.OPPONENT_3;
             default -> throw new IllegalStateException("Invalid number of opponents: " + size);
         };
     }
