@@ -15,7 +15,7 @@ public class PlayerJoinedControl extends ServerToClientControl<PlayerJoined> {
         if (game.isMyPlayer(message)) {
             view.loggedIn();
         }
-        if (!game.isOpponent(message)) {
+        if (game.isNotOpponent(message)) {
             game.playerJoined(message);
             view.displayMessage(message.getPlayerName() + " hat sich angemeldet.");
         }

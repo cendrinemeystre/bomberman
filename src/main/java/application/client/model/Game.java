@@ -31,7 +31,7 @@ public class Game {
         return myPlayer.isName(message.getPlayerName());
     }
 
-    public boolean isOpponent(PlayerJoined message){
+    public boolean isNotOpponent(PlayerJoined message){
          return opponents.stream().noneMatch(opponent -> opponent.isName(message.getPlayerName()));
     }
 
