@@ -1,17 +1,15 @@
 package application.server.model;
 
 public class Bomb {
-    private final String id;
     public static final char ICON = 'b';
+    private final String id;
     private int x;
     private int y;
-    private boolean exploded;
 
     public Bomb(String id, int x, int y) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.exploded = false;
     }
 
     public int getX() {
@@ -30,22 +28,13 @@ public class Bomb {
         this.y = y;
     }
 
-    public boolean isExploded() {
-        return exploded;
-    }
-
     public String getId() {
         return id;
     }
 
     public boolean checkIfHit(int x, int y) {
-        if (x < this.x + 1 && x > this.x - 1) {
-            return y < this.y + 1 && y > this.y - 1;
-        }
-        return false;
+        return (this.y == y && (this.x - 1 <= x || this.x + 1 >= x))
+                || (this.x == x && (this.y + 1 >= y || this.y - 1 <= y));
     }
 
-    public void explode() {
-        exploded = true;
-    }
 }

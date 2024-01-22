@@ -10,7 +10,7 @@ import application.server.labyrinth.Labyrinth;
 import protocol.Direction;
 
 public class Game {
-    private static final int NB_OF_PLAYERS = 4;
+    private static final int NB_OF_PLAYERS = 2;
     Random random = new Random();
     private List<Player> players = new ArrayList<>();
     private List<Bomb> bombs = new ArrayList<>();
@@ -57,7 +57,6 @@ public class Game {
     }
 
     public boolean isMovePossible(String playerName, Direction direction) {
-
         return switch (direction) {
             case UP -> labyrinth.isNextTileEmpty(getPlayerByName(playerName).getX(),
                     getPlayerByName(playerName).getY() - 1);
@@ -72,9 +71,7 @@ public class Game {
     }
 
     public void movePlayer(String playerName, Direction direction) {
-
         labyrinth.getTile(getPlayerByName(playerName).getX(), getPlayerByName(playerName).getY()).setOccupation('f');
-
         switch (direction) {
             case UP -> getPlayerByName(playerName).setY(getPlayerByName(playerName).getY() - 1);
             case DOWN -> getPlayerByName(playerName).setY(getPlayerByName(playerName).getY() + 1);
@@ -106,9 +103,7 @@ public class Game {
     }
 
     public List<String> checkPlayerHit(Bomb bomb) {
-
         List<String> hitPlayers = new ArrayList<>();
-
         for (Player player : players) {
             if (bomb.checkIfHit(player.getX(), player.getY())) {
                 hitPlayers.add(player.getName());
@@ -122,9 +117,7 @@ public class Game {
     }
 
     public Bomb getBombById(String id) {
-
         return bombs.stream().filter(bomb -> bomb.getId().equals(id)).findFirst().get();
-
     }
 
     public void logScore(String playerName) {
@@ -157,7 +150,6 @@ public class Game {
         Player winner = players.get(0);
         for (Player player : players) {
             if (player.getScore() > winner.getScore()) {
-
                 winner = player;
             }
         }

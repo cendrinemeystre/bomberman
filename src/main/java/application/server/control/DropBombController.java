@@ -32,22 +32,24 @@ public class DropBombController extends Controller {
             }
             explodeBomb(bombId, dropBombMessage);
         });
-
     }
 
     private void explodeBomb(String bombId, DropBomb dropBombMessage) {
-
         server.broadcast(new BombExploded(bombId));
+        checkIfPlayerIsHit(bombId, dropBombMessage);
+        game.updateLabyrinth(game.getBombById(bombId));
+        server.broadcast(new Update(game.getLabyrinth().getCharMap()));
+        if (!game.checkIfRunning()) {
+            server.broadcast(new GameOver(game.getWinner(), game.getScoreboard()));
+        }
+    }
+
+    private void checkIfPlayerIsHit(String bombId, DropBomb dropBombMessage) {
         List<String> hitPlayers = game.checkPlayerHit(game.getBombById(bombId));
         for (String playerName : hitPlayers) {
             server.broadcast(new PlayerHit(playerName));
             game.logScore(dropBombMessage.getPlayerName());
             game.killPlayer(playerName);
-        }
-        game.updateLabyrinth(game.getBombById(bombId));
-        server.broadcast(new Update(game.getLabyrinth().getCharMap()));
-        if (!game.checkIfRunning()) {
-            server.broadcast(new GameOver("winner", game.getScoreboard()));
         }
     }
 }
