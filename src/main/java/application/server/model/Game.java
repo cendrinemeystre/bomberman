@@ -10,7 +10,7 @@ import application.server.labyrinth.Labyrinth;
 import protocol.Direction;
 
 public class Game {
-    private static final int NB_OF_PLAYERS = 2;
+    private static final int NB_OF_PLAYERS = 4;
     Random random = new Random();
     private List<Player> players = new ArrayList<>();
     private List<Bomb> bombs = new ArrayList<>();

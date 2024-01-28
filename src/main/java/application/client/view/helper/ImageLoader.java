@@ -17,7 +17,7 @@ public class ImageLoader {
 
     public ImageIcon getImageByKey(char key) {
         if (!imageMap.containsKey(key)) {
-            throw new IllegalArgumentException("The key: " + key + " is does not exist in imageMap");
+            throw new IllegalArgumentException("The key: " + key + " does not exist in imageMap");
         }
         return imageMap.get(key);
     }
